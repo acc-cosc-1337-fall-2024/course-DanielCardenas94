@@ -1,23 +1,27 @@
 //h
 
-#ifndef TICTACTOEMANAGER_H
-#define TICTACTOEMANAGER_H
+#ifndef TIC_TAC_TOE_MANAGER_H
+#define TIC_TAC_TOE_MANAGER_H
 
-#include <vector>
 #include "tic_tac_toe.h"
+#include <vector>
+#include <memory>
+#include <iostream>
 
 class TicTacToeManager {
 private:
-    std::vector<TicTacToe> games;
-    int x_wins{0};
-    int o_wins{0};
+    std::vector<std::unique_ptr<TicTacToe>> games;
+    int x_win{0};
+    int o_win{0};
     int ties{0};
 
-    void update_winner_count(std::string winner);
+    void update_winner_count(const std::string& winner);
 
 public:
-    void save_game(TicTacToe b);
-    void get_winner_total(int& o, int& x, int& t) const;
+    void save_game(std::unique_ptr<TicTacToe>& game);
+    void get_winner_totals(int& x_wins, int& o_wins, int& tie_count) const;
+
+    friend std::ostream& operator<<(std::ostream& out, const TicTacToeManager& manager);
 };
 
-#endif
+#endif // TIC_TAC_TOE_MANAGER_H
